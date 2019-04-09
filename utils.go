@@ -2,6 +2,12 @@
 package pocket
 
 import (
+	"crypto/md5"
+	"encoding/hex"
+	"fmt"
+	"io"
+	"math/rand"
+	"strings"
 	"sync"
 	"time"
 
