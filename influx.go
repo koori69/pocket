@@ -1,5 +1,5 @@
-// Package core @author K·J Create at 2019-04-15 15:04
-package core
+// Package pocket @author K·J Create at 2019-04-15 15:04
+package pocket
 
 import (
 	"encoding/json"
