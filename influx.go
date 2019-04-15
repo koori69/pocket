@@ -122,3 +122,25 @@ func setValue(v reflect.Value, data interface{}) error {
 	}
 	return nil
 }
+
+// InfluxQueryRow query row from influx
+func InfluxQueryRow(c *client.Client, query client.Query) (*models.Row, error) {
+	data, err := (*c).Query(query)
+	if nil != err {
+		return nil, err
+	}
+	if nil == data {
+		return nil, nil
+	}
+	if "" != (*data).Err {
+		return nil, errors.New((*data).Err)
+	}
+	result := (*data).Results[0]
+	if "" != result.Err {
+		return nil, errors.New(result.Err)
+	}
+	if len(result.Series) == 0 {
+		return nil, nil
+	}
+	return &result.Series[0], nil
+}
