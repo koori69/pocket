@@ -37,7 +37,7 @@ func UnmarshalInflux(columns map[int]string, data []interface{}, v interface{}) 
 		tag := columns[i]
 		for j := 0; j < t.Elem().NumField(); j++ {
 			if tag == t.Elem().Field(j).Tag.Get("influx") {
-				err := setValue(value.Field(i), k)
+				err := setValue(value.Field(j), k)
 				if nil != err {
 					return err
 				}
