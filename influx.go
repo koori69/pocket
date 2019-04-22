@@ -6,6 +6,9 @@ import (
 	"errors"
 	"reflect"
 	"unsafe"
+	
+	"github.com/influxdata/influxdb1-client/models"
+	"github.com/influxdata/influxdb1-client/v2"
 )
 
 // Stom convert []string to map[int]string
