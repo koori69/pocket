@@ -41,6 +41,7 @@ func UnmarshalInflux(columns map[int]string, data []interface{}, v interface{}) 
 				if nil != err {
 					return err
 				}
+				break
 			}
 		}
 	}
