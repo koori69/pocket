@@ -51,7 +51,7 @@ func UnmarshalInflux(columns map[int]string, data []interface{}, v interface{}) 
 // setValue set value
 func setValue(v reflect.Value, data interface{}) error {
 	if nil == data {
-		return errors.New("param invalid")
+		return nil
 	}
 	if v.CanSet() {
 		switch v.Kind() {
