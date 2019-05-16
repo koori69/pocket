@@ -122,7 +122,7 @@ func (logback *Logback) output(level string, v ...interface{}) {
 		str = fmt.Sprintf(format, level, file, line, fmt.Sprintln(v...))
 	}
 
-	logback.logger.Println(str)
+	logback.logger.Print(str)
 }
 
 func getCaller(skip int) (string, int) {
