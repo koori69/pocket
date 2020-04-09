@@ -114,7 +114,7 @@ func (logback *Logback) output(level string, v ...interface{}) {
 	if nil != logback.fields {
 		format = "| %s | %s:%d | %s- %s"
 		for k, v := range *(logback.fields) {
-			fields += k + ":" + getValue(v) + " | "
+			fields += k + ":" + getLogbackValue(v) + " | "
 		}
 		fields = fields[:len(fields)-1]
 		str = fmt.Sprintf(format, level, file, line, fields, fmt.Sprintln(v...))
@@ -143,7 +143,7 @@ func getCaller(skip int) (string, int) {
 	return file, line
 }
 
-func getValue(v interface{}) string {
+func getLogbackValue(v interface{}) string {
 	if nil == v {
 		return ""
 	}
