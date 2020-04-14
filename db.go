@@ -4,7 +4,6 @@ package pocket
 import (
 	"errors"
 	"fmt"
-	"log"
 	"reflect"
 	"strings"
 )
@@ -28,7 +27,7 @@ func NewSqlBuilder(table string, model interface{}) *SqlBuilder {
 func (builder *SqlBuilder) BuildInsertRow() (string, []interface{}, error) {
 	sql, param := builder.generate("add-row")
 	if "" == sql {
-		Logger.Error(generateSqlErr)
+		DefaultLogger.Error(generateSqlErr)
 		return "", nil, errors.New(generateSqlErr)
 	}
 
@@ -39,7 +38,7 @@ func (builder *SqlBuilder) BuildInsertRow() (string, []interface{}, error) {
 func (builder *SqlBuilder) BuildInsert() (string, []interface{}, error) {
 	sql, param := builder.generate("add-rows")
 	if "" == sql {
-		Logger.Error(generateSqlErr)
+		DefaultLogger.Error(generateSqlErr)
 		return "", nil, errors.New(generateSqlErr)
 	}
 
@@ -55,7 +54,7 @@ func (builder *SqlBuilder) generate(action string) (string, []interface{}) {
 		params := make([]interface{}, 0)
 		originType := reflect.TypeOf(builder.Model)
 		if originType.Kind() != reflect.Ptr || originType.Elem().Kind() != reflect.Struct {
-			Logger.Warn("param error")
+			DefaultLogger.Warn("param error")
 			return "", params
 		}
 		originValue := reflect.ValueOf(builder.Model)
@@ -93,7 +92,7 @@ func (builder *SqlBuilder) generate(action string) (string, []interface{}) {
 		originType := reflect.TypeOf(builder.Model)
 		if originType.Kind() != reflect.Slice && originType.Kind() != reflect.Array ||
 			originType.Elem().Kind() != reflect.Struct {
-			Logger.Warn("param error")
+			DefaultLogger.Warn("param error")
 			return "", params
 		}
 		originValue := reflect.ValueOf(builder.Model)
@@ -142,7 +141,7 @@ func (builder *SqlBuilder) generate(action string) (string, []interface{}) {
 		}
 
 		if len(values) == 0 {
-			Logger.Warn("no data")
+			DefaultLogger.Warn("no data")
 			return "", params
 		}
 		index := 0
@@ -152,7 +151,7 @@ func (builder *SqlBuilder) generate(action string) (string, []interface{}) {
 				count = v
 			}
 			if count != v {
-				Logger.Error(columnErr)
+				DefaultLogger.Error(columnErr)
 				return "", nil
 			}
 			index++
@@ -163,7 +162,7 @@ func (builder *SqlBuilder) generate(action string) (string, []interface{}) {
 		params := make([]interface{}, 0)
 		originType := reflect.TypeOf(builder.Model)
 		if originType.Kind() != reflect.Ptr || originType.Elem().Kind() != reflect.Struct {
-			Logger.Warn("param error")
+			DefaultLogger.Warn("param error")
 			return set, params
 		}
 		originValue := reflect.ValueOf(builder.Model)
@@ -198,7 +197,7 @@ func XormUpdateParam(model interface{}) (map[string]interface{}, error) {
 	params := make(map[string]interface{}, 0)
 	originType := reflect.TypeOf(model)
 	if originType.Kind() != reflect.Ptr || originType.Elem().Kind() != reflect.Struct {
-		Logger.Warn("param error")
+		DefaultLogger.Warn("param error")
 		return nil, errors.New("param error")
 	}
 	originValue := reflect.ValueOf(model)
@@ -226,7 +225,7 @@ func XormUpdateParam(model interface{}) (map[string]interface{}, error) {
 func ReqToSql(model interface{}) (string, []interface{}, map[string][]string, error) {
 	originType := reflect.TypeOf(model)
 	if originType.Kind() != reflect.Struct {
-		Logger.Warn("param error")
+		DefaultLogger.Warn("param error")
 		return "", nil, nil, errors.New("param error")
 	}
 	originValue := reflect.ValueOf(model)
@@ -353,7 +352,7 @@ func ReqToSql(model interface{}) (string, []interface{}, map[string][]string, er
 			where += fmt.Sprintf("`%s`=?", SnakeString(originType.Field(i).Name))
 			param = append(param, originValue.Field(i).Int())
 		default:
-			log.Warn("not supported type")
+			DefaultLogger.Warn("not supported type")
 			continue
 		}
 	}
