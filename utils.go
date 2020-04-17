@@ -204,7 +204,7 @@ func DecodeQuery(dst interface{}, src map[string][]string) error {
 						case "*int":
 							val, err := strconv.Atoi(param[0])
 							if nil != err {
-								Logger.Error(err.Error())
+								DefaultLogger.Error(err.Error())
 								break
 							}
 							p := new(int)
@@ -213,7 +213,7 @@ func DecodeQuery(dst interface{}, src map[string][]string) error {
 						case "*int64":
 							val, err := strconv.ParseInt(param[0], 10, 64)
 							if nil != err {
-								Logger.Error(err.Error())
+								DefaultLogger.Error(err.Error())
 								break
 							}
 							p := new(int64)
@@ -231,14 +231,14 @@ func DecodeQuery(dst interface{}, src map[string][]string) error {
 					case reflect.Int:
 						val, err := strconv.ParseInt(param[0], 10, 32)
 						if nil != err {
-							Logger.Error(err.Error())
+							DefaultLogger.Error(err.Error())
 							break
 						}
 						v.Field(i).SetInt(val)
 					case reflect.Int64:
 						val, err := strconv.ParseInt(param[0], 10, 64)
 						if nil != err {
-							Logger.Error(err.Error())
+							DefaultLogger.Error(err.Error())
 							break
 						}
 						v.Field(i).SetInt(val)
@@ -256,7 +256,7 @@ func String(model interface{}) string {
 	str := ""
 	originType := reflect.TypeOf(model)
 	if originType.Kind() != reflect.Ptr || originType.Elem().Kind() != reflect.Struct {
-		Logger.Warn("param error")
+		DefaultLogger.Warn("param error")
 		return ""
 	}
 	originValue := reflect.ValueOf(model)
